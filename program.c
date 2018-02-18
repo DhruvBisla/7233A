@@ -14,8 +14,15 @@
 
 float x;
 float y;
-float z;
-
+float z = 0;
+float angle_123 = 0;
+float angle_4 = 0;
+float angle_5 = 0;
+float angle_6 = 0;
+float angle_7 = 0;
+float angle_8 = 0;
+float angle_9 = 0;
+float angle_10 = 0;
 
 task main()
 {
@@ -35,7 +42,7 @@ task main()
 			stopMultipleMotors(port6, port7, noMotor, noMotor);
 			// Go backwards
 			backward(1.8, seconds, 65);
-			// Turn Left (Or Right depending on location) 
+			// Turn Left (Or Right depending on location)
 			turnLeft(2, seconds, 55);
 			//turnRight(2, seconds, 55);
 			// Go forward into 10 pt zone
@@ -113,54 +120,44 @@ task main()
 				// Semi-autonomous for stacking cones, based on # of cones and their individual stacking angles, (all diff b/c of tilt)
 				if (vexRT[Btn6DXmtr2] == 1) {
 					z = z + 1;
-					if (z == 1) {
+					if (z <= 3) {
 						setMotor(arm2, 50);
-						waitUntil (SensorValue[Arm2Potentiometer] >= val);
+						waitUntil (SensorValue[Arm2Potentiometer] >= angle_123);
 						stopMotor(arm2);
-					} else {
-						if (z == 2) {
-							setMotor(arm2, 50);
-							waitUntil (SensorValue[Arm2Potentiometer] >= val);
-							stopMotor(arm2);
-						} else {
-							if (z == 3) {
-								setMotor(arm2, 50);
-								waitUntil (SensorValue[Arm2Potentiometer] >= val);
-								stopMotor(arm2);
 							} else {
 								if (z == 4) {
 									setMotor(arm2, 50);
-									waitUntil (SensorValue[Arm2Potentiometer] >= val);
+									waitUntil (SensorValue[Arm2Potentiometer] >= angle_4);
 									stopMotor(arm2);
 								} else {
 									if (z == 5) {
 										setMotor(arm2, 50);
-										waitUntil (SensorValue[Arm2Potentiometer] >= val);
+										waitUntil (SensorValue[Arm2Potentiometer] >= angle_5);
 										stopMotor(arm2);
 									} else {
 										if (z == 6) {
 											setMotor(arm2, 50);
-											waitUntil (SensorValue[Arm2Potentiometer] >= val);
+											waitUntil (SensorValue[Arm2Potentiometer] >= angle_6);
 											stopMotor(arm2);
 										} else {
 											if (z == 7) {
 												setMotor(arm2, 50);
-												waitUntil (SensorValue[Arm2Potentiometer] >= val);
+												waitUntil (SensorValue[Arm2Potentiometer] >= angle_7);
 												stopMotor(arm2);
 											} else {
 												if (z == 8) {
 													setMotor(arm2, 50);
-													waitUntil (SensorValue[Arm2Potentiometer] >= val);
+													waitUntil (SensorValue[Arm2Potentiometer] >= angle_8);
 													stopMotor(arm2);
 												} else {
 													if (z == 9) {
 														setMotor(arm2, 50);
-														waitUntil (SensorValue[Arm2Potentiometer] >= val);
+														waitUntil (SensorValue[Arm2Potentiometer] >= angle_9);
 														stopMotor(arm2);
 													} else {
 														if (z == 10) {
 															setMotor(arm2, 50);
-															waitUntil (SensorValue[Arm2Potentiometer] >= val);
+															waitUntil (SensorValue[Arm2Potentiometer] >= angle_10);
 															stopMotor(arm2);
 														}
 													}
