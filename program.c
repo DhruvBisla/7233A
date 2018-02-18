@@ -181,6 +181,9 @@ task main()
 				if (vexRT[Btn7LXmtr2] == 1) {
 					z = 0;
 				}
+				if (vexRT[Btn8RXmtr2] == 1) {
+					z = z + 1;
+				}
 				// Holding the cone (claw function)
 				if (vexRT[Btn7DXmtr2] == 1) {
 					setMotor(claw, 50);
