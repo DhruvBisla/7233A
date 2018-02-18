@@ -181,6 +181,15 @@ task main()
 				if (vexRT[Btn7LXmtr2] == 1) {
 					z = 0;
 				}
+				// Holding the cone (claw function)
+				if (vexRT[Btn7DXmtr2] == 1) {
+					setMotor(claw, 50);
+					waitUntil (vexRT[Btn8DXmtr2] == 1);
+					stopMotor(claw);
+					setMotor(claw, -80);
+					wait(1, seconds);
+					stopMotor(claw);
+				}
 				// Claw control
 				armControl(claw, Btn5UXmtr2, Btn5DXmtr2, 50);
 			}
