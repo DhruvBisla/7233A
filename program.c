@@ -170,15 +170,15 @@ task main()
 						}
 					}
 				}
-				// If cone misses using 7D, subtracts 1 cone from stack memory. If multiple fall off, press according to number of cones that have fallen
+				// If cone misses using 6U, subtracts 1 cone from stack memory. If multiple fall off, press according to number of cones that have fallen
 				if (vexRT[Btn7RXmtr2] == 1) {
 					z = z - 1;
 				}
 				// When mobile goal has been stacked, reset stack memory
-				if (vexRT[Btn7LXmtr2] == 1) {
+				if (vexRT[Btn8DXmtr2] == 1) {
 					z = 0;
 				}
-				if (vexRT[Btn8RXmtr2] == 1) {
+				if (vexRT[Btn7UXmtr2] == 1) {
 					z = z + 1;
 				}
 				// Holding the cone (claw function)
