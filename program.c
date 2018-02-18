@@ -35,7 +35,7 @@ task main()
 			stopMultipleMotors(port6, port7, noMotor, noMotor);
 			// Go backwards
 			backward(1.8, seconds, 65);
-			// Turn Left (Or Right depending on location)
+			// Turn Left (Or Right depending on location) 
 			turnLeft(2, seconds, 55);
 			//turnRight(2, seconds, 55);
 			// Go forward into 10 pt zone
@@ -111,7 +111,7 @@ task main()
 				// Arm2 control
 				joystickControl(Arm2, Ch3Xmtr2, 30);
 				// Semi-autonomous for stacking cones, based on # of cones and their individual stacking angles, (all diff b/c of tilt)
-				if (vexRT[Btn7DXmtr2] == 1) {
+				if (vexRT[Btn6DXmtr2] == 1) {
 					z = z + 1;
 					if (z == 1) {
 						setMotor(arm2, 50);
