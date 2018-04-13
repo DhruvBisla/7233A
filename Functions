@@ -1,68 +1,96 @@
-void driveTrainForward(int distanceForward) {
+void driveTrainForward(int distanceForward, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
 	while (SensorValue[leftEncoder] < distanceForward) {
-		motor[leftFront] = 80;
-		motor[rightFront] = 80;
-		motor[leftBack] = 80;
-		motor[rightBack] = 80;
+		motor[leftFront] = power;
+		motor[rightFront] = power;
+		motor[leftBack] = power;
+		motor[rightBack] = power;
 	}
+	motor[leftFront] = 0;
+	motor[rightFront] = 0;
+	motor[leftBack] = 0;
+	motor[rightBack] = 0;
 }
-void driveTrainBackward(int distanceBackward) {
+void driveTrainBackward(int distanceBackward, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
 	while (SensorValue[leftEncoder] > distanceBackward) {
-		motor[leftFront] = -80;
-		motor[rightFront] = -80;
-		motor[leftBack] = -80;
-		motor[rightBack] = -80;
+		motor[leftFront] = -power;
+		motor[rightFront] = -power;
+		motor[leftBack] = -power;
+		motor[rightBack] = -power;
 	}
+	motor[leftFront] = 0;
+	motor[rightFront] = 0;
+	motor[leftBack] = 0;
+	motor[rightBack] = 0;
 }
-void pointTurnLeft (int leftTurnDistance) {
+void pointTurnLeft (int leftTurnDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
-	while (SensorValue[leftEncoder] < leftTurnDistance) {
-		motor[leftFront] = 80;
-		motor[leftBack] = 80;
-		motor[rightFront] = -80;
-		motor[rightBack] = -80;
+	while (SensorValue[leftEncoder] > leftTurnDistance) {
+		motor[leftFront] = -power;
+		motor[leftBack] = -power;
+		motor[rightFront] = power;
+		motor[rightBack] = power;
 	}
+	motor[leftFront] = 0;
+	motor[rightFront] = 0;
+	motor[leftBack] = 0;
+	motor[rightBack] = 0;
 }
-void pointTurnRight (int rightTurnDistance) {
+void pointTurnRight (int rightTurnDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
 	while (SensorValue[leftEncoder] < rightTurnDistance) {
-		motor[leftFront] = -80;
-		motor[leftBack] = -80;
-		motor[rightFront] = 80;
-		motor[rightBack] = 80;
+		motor[leftFront] = power;
+		motor[leftBack] = power;
+		motor[rightFront] = -power;
+		motor[rightBack] = -power;
 	}
+	motor[leftFront] = 0;
+	motor[rightFront] = 0;
+	motor[leftBack] = 0;
+	motor[rightBack] = 0;
 }
-void swerveTurnLeft (int leftSwerveDistance) {
+void swerveTurnLeft (int leftSwerveDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
 	while (SensorValue[leftEncoder] > leftSwerveDistance) {
-		motor[leftFront] = 80;
-		motor[leftBack] = 80;
+		motor[leftFront] = power;
+		motor[leftBack] = power;
 	}
+	motor[leftFront] = 0;
+	motor[rightFront] = 0;
+	motor[leftBack] = 0;
+	motor[rightBack] = 0;
 }
-void swerveTurnRight (int rightSwerveDistance) {
+void swerveTurnRight (int rightSwerveDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
-	while (SensorValue[leftEncoder] < rightSwerveDistance) {
-		motor[rightFront] = 80;
-		motor[rightBack] = 80;
+	while (SensorValue[rightEncoder] < rightSwerveDistance) {
+		motor[rightFront] = power;
+		motor[rightBack] = power;
 	}
+	motor[leftFront] = 0;
+	motor[rightFront] = 0;
+	motor[leftBack] = 0;
+	motor[rightBack] = 0;
 }
-void intakeDown (int intakeDownVal) {
-	while (SensorValue[IntakePotentiometer] < intakeDownVal) {
-		motor[leftIntake] = 90;
-		motor[rightIntake] = 90;
+void intakeDown (int power) {
+	while (SensorValue[IntakePotentiometer] < 1600) {
+		motor[leftIntake] = power;
+		motor[rightIntake] = power;
 	}
+	motor[leftIntake] = 0;
+	motor[rightIntake] = 0;
 }
-void intakeUp (int intakeUpVal) {
-	while (SensorValue[IntakePotentiometer] > intakeUpVal) {
-		motor[leftIntake] = -100;
-		motor[rightIntake] = -100;
+void intakeUp (int power) {
+	while (SensorValue[IntakePotentiometer] > 200) {
+		motor[leftIntake] = -power;
+		motor[rightIntake] = -power;
 	}
+	motor[leftIntake] = 0;
+	motor[rightIntake] = 0;
 }
