@@ -1,0 +1,32 @@
+			// Lift the arm up
+			setMultipleMotors(45, leftArm, rightArm);
+			// Close the claw on the preloaded cone
+			setMotor(claw, -80);
+			// Allow the arm to raise before putting the intake down (wait for .5)
+			delay(500);
+			// Put the mobile goal intake down
+			intakeDown(90);
+			// Go forward into the mobile goal
+			driveTrainForward(1290, 90);
+			// Intake the mobile goal
+			intakeUp(90);
+			// Discontinue power to the arm, allow it to fall back down
+			stopMultipleMotors(leftArm, rightArm);
+			// Stop power to the claw
+			stopMotor(claw);
+			// Open the claw for .25 seconds at 80 power
+			setMotor(claw, 80);
+			wait1Msec(250);
+			stopMotor(claw);
+			// Put the arm back up
+			setMultipleMotors(45, leftArm, rightArm);
+			// Move the robot backwards
+			driveTrainBackward(-967, 90);
+			// Turn right facing the 5 pt zone
+			pointTurnRight(615, 90);
+			// Move forward into the 5 pt zone
+			driveTrainForward(100, 90);
+			// Put the mobile goal intake down
+			intakeDown(90);
+			// Move backwards away from scored mobile goal
+			driveTrainBackward(-200, 90);
