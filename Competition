@@ -26,7 +26,7 @@
 void driveTrainForward(int distanceForward, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
-	while (SensorValue[leftEncoder] < distanceForward) {
+	while (SensorValue[leftEncoder] < distanceForward || SensorValue[rightEncoder] < distanceForward) {
 		motor[leftFront] = power;
 		motor[rightFront] = power;
 		motor[leftBack] = power;
@@ -40,7 +40,7 @@ void driveTrainForward(int distanceForward, int power) {
 void driveTrainBackward(int distanceBackward, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
-	while (SensorValue[leftEncoder] > distanceBackward) {
+	while (SensorValue[leftEncoder] > distanceBackward || SensorValue[rightEncoder] > distanceBackward) {
 		motor[leftFront] = -power;
 		motor[rightFront] = -power;
 		motor[leftBack] = -power;
@@ -54,7 +54,7 @@ void driveTrainBackward(int distanceBackward, int power) {
 void pointTurnLeft (int leftTurnDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
-	while (SensorValue[leftEncoder] > leftTurnDistance) {
+	while (SensorValue[leftEncoder] > leftTurnDistance || SensorValue[rightEncoder] < -leftTurnDistance) {
 		motor[leftFront] = -power;
 		motor[leftBack] = -power;
 		motor[rightFront] = power;
@@ -68,7 +68,7 @@ void pointTurnLeft (int leftTurnDistance, int power) {
 void pointTurnRight (int rightTurnDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
-	while (SensorValue[leftEncoder] < rightTurnDistance) {
+	while (SensorValue[leftEncoder] < rightTurnDistance || SensorValue[rightEncoder] > -rightTurnDistance) {
 		motor[leftFront] = power;
 		motor[leftBack] = power;
 		motor[rightFront] = -power;
@@ -79,10 +79,10 @@ void pointTurnRight (int rightTurnDistance, int power) {
 	motor[leftBack] = 0;
 	motor[rightBack] = 0;
 }
-void swerveTurnLeft (int leftSwerveDistance, int power) {
+void swerveTurnRight (int leftSwerveDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
-	while (SensorValue[leftEncoder] > leftSwerveDistance) {
+	while (SensorValue[leftEncoder] < leftSwerveDistance) {
 		motor[leftFront] = power;
 		motor[leftBack] = power;
 	}
@@ -91,7 +91,7 @@ void swerveTurnLeft (int leftSwerveDistance, int power) {
 	motor[leftBack] = 0;
 	motor[rightBack] = 0;
 }
-void swerveTurnRight (int rightSwerveDistance, int power) {
+void swerveTurnLeft (int rightSwerveDistance, int power) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
 	while (SensorValue[rightEncoder] < rightSwerveDistance) {
@@ -104,7 +104,7 @@ void swerveTurnRight (int rightSwerveDistance, int power) {
 	motor[rightBack] = 0;
 }
 void intakeDown (int power) {
-	while (SensorValue[IntakePotentiometer] < 1600) {
+	while (SensorValue[IntakePotentiometer] < 1670) {
 		motor[leftIntake] = power;
 		motor[rightIntake] = power;
 	}
@@ -112,7 +112,7 @@ void intakeDown (int power) {
 	motor[rightIntake] = 0;
 }
 void intakeUp (int power) {
-	while (SensorValue[IntakePotentiometer] > 200) {
+	while (SensorValue[IntakePotentiometer] > 250) {
 		motor[leftIntake] = -power;
 		motor[rightIntake] = -power;
 	}
@@ -163,7 +163,7 @@ void pre_auton()
 		switch(count){
 		case 0:
 			//Display first choice
-			displayLCDCenteredString(0, "Stationary");
+			displayLCDCenteredString(0, "Stationary LEFT");
 			displayLCDCenteredString(1, "<		 Enter		>");
 			waitForPress();
 			//Increment or decrement "count" based on button press
@@ -180,7 +180,7 @@ void pre_auton()
 			break;
 		case 1:
 			//Display second choice
-			displayLCDCenteredString(0, "10 Pt. Auton");
+			displayLCDCenteredString(0, "Stationary RIGHT");
 			displayLCDCenteredString(1, "<		 Enter		>");
 			waitForPress();
 			//Increment or decrement "count" based on button press
@@ -197,7 +197,7 @@ void pre_auton()
 			break;
 		case 2:
 			//Display third choice
-			displayLCDCenteredString(0, "20 Point");
+			displayLCDCenteredString(0, "7 Pt. LEFT");
 			displayLCDCenteredString(1, "<		 Enter		>");
 			waitForPress();
 			//Increment or decrement "count" based on button press
@@ -214,7 +214,75 @@ void pre_auton()
 			break;
 		case 3:
 			//Display fourth choice
-			displayLCDCenteredString(0, "7 Pt. Auton");
+			displayLCDCenteredString(0, "7 Pt. RIGHT");
+			displayLCDCenteredString(1, "<		 Enter		>");
+			waitForPress();
+			//Increment or decrement "count" based on button press
+			if(nLCDButtons == leftButton)
+			{
+				waitForRelease();
+				count--;
+			}
+			else if(nLCDButtons == rightButton)
+			{
+				waitForRelease();
+				count = 0;
+			}
+			break;
+		case 4:
+			//Display fifth choice
+			displayLCDCenteredString(0, "12 Pt. LEFT");
+			displayLCDCenteredString(1, "<		 Enter		>");
+			waitForPress();
+			//Increment or decrement "count" based on button press
+			if(nLCDButtons == leftButton)
+			{
+				waitForRelease();
+				count--;
+			}
+			else if(nLCDButtons == rightButton)
+			{
+				waitForRelease();
+				count = 0;
+			}
+			break;
+		case 5:
+			//Display sixth choice
+			displayLCDCenteredString(0, "12 Pt. RIGHT");
+			displayLCDCenteredString(1, "<		 Enter		>");
+			waitForPress();
+			//Increment or decrement "count" based on button press
+			if(nLCDButtons == leftButton)
+			{
+				waitForRelease();
+				count--;
+			}
+			else if(nLCDButtons == rightButton)
+			{
+				waitForRelease();
+				count = 0;
+			}
+			break;
+		case 6:
+			//Display seventh choice
+			displayLCDCenteredString(0, "22 Pt. LEFT");
+			displayLCDCenteredString(1, "<		 Enter		>");
+			waitForPress();
+			//Increment or decrement "count" based on button press
+			if(nLCDButtons == leftButton)
+			{
+				waitForRelease();
+				count--;
+			}
+			else if(nLCDButtons == rightButton)
+			{
+				waitForRelease();
+				count = 0;
+			}
+			break;
+		case 7:
+			//Display eighth choice
+			displayLCDCenteredString(0, "22 Pt. RIGHT");
 			displayLCDCenteredString(1, "<		 Enter		>");
 			waitForPress();
 			//Increment or decrement "count" based on button press
@@ -244,152 +312,323 @@ task autonomous()
 	clearLCDLine(1);
 	//Switch Case that actually runs the user choice
 	switch(count){
+
 	case 0:
 		//If count = 0, run the code correspoinding with choice 1
-		displayLCDCenteredString(0, "Stationary Auton");
+		displayLCDCenteredString(0, "Stationary LEFT");
 		displayLCDCenteredString(1, "is running!");
 
-		// Stationary Auton:
+		// Stationary LEFT:
 
+		// Start hold on cone
 		setMotor(-90, claw);
+		// Start raising the arm
 		setMultipleMotors(80, rightArm, leftArm);
-		while (SensorValue[leftEncoder] < 791) {
-			motor[rightFront] = 60;
-			motor[leftFront] = 60;
-			motor[rightBack] = 60;
-			motor[leftBack] = 60;
-		}
+		// Forward into stationary goal
+		driveTrainForward(791, 127);
+		// Stop power to arm, let it fall down onto goal
 		stopMultipleMotors(rightArm, leftArm);
 		stopMotor(claw);
+		// Open the claw
 		setMotor(90, claw);
-		wait(1, seconds);
-		while (SensorValue[leftEncoder] > 400) {
-			motor[rightFront] = -60;
-			motor[leftFront] = -60;
-			motor[rightBack] = -60;
-			motor[leftBack] = -60;
-		}
+		delay(500);
+		// Go backwards
+		driveTrainBackward(-391, 127);
 		stopMotor(claw);
-		turnRight(1, seconds, 50);
-		setMultipleMotors(95, port6, port7);
-		wait(1, seconds);
-		stopMultipleMotors(port6, port7);
-		forward(3, seconds, 60);
+		// Turn Left (90 degrees) towards mobile goal
+		pointTurnLeft(280, 127);
+		// Raise arm for intake
+		setMultipleMotors(55, rightArm, leftArm);
+		delay(250);
+		// Put intake down
+		intakeDown(127);
+		stopMultipleMotors(rightArm, leftArm);
+		// Go forward
+		driveTrainForward(1000, 127);
 		break;
+
 	case 1:
 		//If count = 1, run the code correspoinding with choice 2
-		displayLCDCenteredString(0, "10 Pt. Auton");
+		displayLCDCenteredString(0, "Stationary RIGHT");
 		displayLCDCenteredString(1, "is running!");
 
-		// 10 Pt. Auton:
+		// Stationary RIGHT:
 
-		// Keep arm up
-		setMultipleMotors(40, rightArm, leftArm);
-		// Put Intake Down
-		intakeDown(127);
-		// Move Forward Into Mobile Goal
-		driveTrainForward(1262, 80);
-		// Intake Mobile Goal
-		intakeUp(100);
-		// Reset Encoder Values
-		SensorValue[rightEncoder] = 0;
-		SensorValue[leftEncoder] = 0;
-		// Move Backwards
-		driveTrainBackward(-903, 90);
-		// Reset Encoder Values
-		SensorValue[rightEncoder] = 0;
-		SensorValue[leftEncoder] = 0;
-		// Turn, Please Get Encoder Values
-		turnLeft(1.5, seconds, 65);
-		// Reset Encoder Values
-		SensorValue[rightEncoder] = 0;
-		SensorValue[leftEncoder] = 0;
-		// Forward into 20 point zone
-		forward(1.25, seconds, 90);
-		// Put mobile goal in zone
-		intakeDown(127);
-		// Go backwards
-		backward(1, seconds, 80);
-		// Stop Arm
+		// Start hold on cone
+		setMotor(-90, claw);
+		// Start raising the arm
+		setMultipleMotors(80, rightArm, leftArm);
+		// Forward into stationary goal
+		driveTrainForward(791, 127);
+		// Stop power to arm, let it fall down onto goal
 		stopMultipleMotors(rightArm, leftArm);
-
-		// Insert Autonomous 2
+		stopMotor(claw);
+		// Open the claw
+		setMotor(90, claw);
+		delay(500);
+		// Go backwards
+		driveTrainBackward(-391, 127);
+		stopMotor(claw);
+		// Turn Left (90 degrees) towards mobile goal
+		pointTurnRight(280, 127);
+		// Raise arm for intake
+		setMultipleMotors(55, rightArm, leftArm);
+		delay(250);
+		// Put intake down
+		intakeDown(127);
+		stopMultipleMotors(rightArm, leftArm);
+		// Go forward
+		driveTrainForward(1000, 127);
 		break;
+
 	case 2:
 		//If count = 2, run the code correspoinding with choice 3
-		displayLCDCenteredString(0, "20 Pt. Auton");
+		displayLCDCenteredString(0, "7 Pt. LEFT");
 		displayLCDCenteredString(1, "is running!");
 
-		// 20 Pt. Auton:
+		// 7 Pt. LEFT:
 
-		// Keep arm up
-		setMultipleMotors(40, rightArm, leftArm);
-		// Put Intake Down
-		intakeDown(127);
-		// Move Forward Into Mobile Goal
-		driveTrainForward(1262, 80);
-		// Intake Mobile Goal
-		intakeUp(100);
-		// Reset Encoder Values
-		SensorValue[rightEncoder] = 0;
-		SensorValue[leftEncoder] = 0;
-		// Move Backwards
-		driveTrainBackward(-903, 90);
-		// Reset Encoder Values
-		SensorValue[rightEncoder] = 0;
-		SensorValue[leftEncoder] = 0;
-		// Turn, Please Get Encoder Values
-		turnLeft(1.5, seconds, 65);
-		// Reset Encoder Values
-		SensorValue[rightEncoder] = 0;
-		SensorValue[leftEncoder] = 0;
-		// Forward into 20 point zone
-		forward(2.5, seconds, 90);
-		// Put mobile goal in zone
-		intakeDown(127);
-		// Go backwards
-		backward(2, seconds, 80);
-		// Stop Arm
-		stopMultipleMotors(rightArm, leftArm);
+		// Lift the arm up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Close the claw on the preloaded cone
+		setMotor(claw, -80);
+		// Allow the arm to raise before putting the intake down (wait for .5)
+		delay(500);
+		// Put the mobile goal intake down
+		intakeDown(90);
+		// Go forward into the mobile goal
+		driveTrainForward(1290, 90);
+		// Intake the mobile goal
+		intakeUp(90);
+		// Discontinue power to the arm, allow it to fall back down
+		stopMultipleMotors(leftArm, rightArm);
+		// Stop power to the claw
+		stopMotor(claw);
+		// Open the claw for .25 seconds at 80 power
+		motor[claw] = 80;
+		wait1Msec(250);
+		// Put the arm back up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Move the robot backwards
+		driveTrainBackward(-967, 90);
+		// Turn right facing the 5 pt zone
+		pointTurnLeft(-615, 90);
+		// Move forward into the 5 pt zone
+		driveTrainForward(100, 90);
+		// Put the mobile goal intake down
+		intakeDown(90);
+		// Move backwards away from scored mobile goal
+		driveTrainBackward(-200, 90);
 
 		break;
 	case 3:
 		//If count = 3, run the code correspoinding with choice 4
-		displayLCDCenteredString(0, "7 Pt. Auton");
+		displayLCDCenteredString(0, "7 Pt. RIGHT");
 		displayLCDCenteredString(1, "is running!");
 
-			// Lift the arm up
-			setMultipleMotors(45, leftArm, rightArm);
-			// Close the claw on the preloaded cone
-			setMotor(claw, -80);
-			// Allow the arm to raise before putting the intake down (wait for .5)
-			delay(500);
-			// Put the mobile goal intake down
-			intakeDown(90);
-			// Go forward into the mobile goal
-			driveTrainForward(1290, 90);
-			// Intake the mobile goal
-			intakeUp(90);
-			// Discontinue power to the arm, allow it to fall back down
-			stopMultipleMotors(leftArm, rightArm);
-			// Stop power to the claw
-			stopMotor(claw);
-			// Open the claw for .25 seconds at 80 power
-			setMotor(claw, 80);
-			wait1Msec(250);
-			stopMotor(claw);
-			// Put the arm back up
-			setMultipleMotors(45, leftArm, rightArm);
-			// Move the robot backwards
-			driveTrainBackward(-967, 90);
-			// Turn right facing the 5 pt zone
-			pointTurnRight(615, 90);
-			// Move forward into the 5 pt zone
-			driveTrainForward(100, 90);
-			// Put the mobile goal intake down
-			intakeDown(90);
-			// Move backwards away from scored mobile goal
-			driveTrainBackward(-200, 90);
+		// 7 Pt. RIGHT:
+
+		// Lift the arm up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Close the claw on the preloaded cone
+		setMotor(claw, -80);
+		// Allow the arm to raise before putting the intake down (wait for .5)
+		delay(500);
+		// Put the mobile goal intake down
+		intakeDown(90);
+		// Go forward into the mobile goal
+		driveTrainForward(1290, 90);
+		// Intake the mobile goal
+		intakeUp(90);
+		// Discontinue power to the arm, allow it to fall back down
+		stopMultipleMotors(leftArm, rightArm);
+		// Stop power to the claw
+		stopMotor(claw);
+		// Open the claw for .25 seconds at 80 power
+		motor[claw] = 80;
+		wait1Msec(250);
+		// Put the arm back up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Move the robot backwards
+		driveTrainBackward(-967, 90);
+		// Turn right facing the 5 pt zone
+		pointTurnRight(615, 90);
+		// Move forward into the 5 pt zone
+		driveTrainForward(100, 90);
+		// Put the mobile goal intake down
+		intakeDown(90);
+		// Move backwards away from scored mobile goal
+		driveTrainBackward(-200, 90);
+
+		break;
+	case 4:
+		//If count = 3, run the code correspoinding with choice 4
+		displayLCDCenteredString(0, "12 Pt. LEFT");
+		displayLCDCenteredString(1, "is running!");
+
+		// 12 Pt. LEFT:
+
+		// Lift the arm up
+		setMultipleMotors(55, leftArm, rightArm);
+		// Close the claw on the preloaded cone
+		setMotor(claw, -80);
+		// Allow the arm to raise before putting the intake down (wait for .5)
+		delay(500);
+		// Put the mobile goal intake down
+		intakeDown(100);
+		// Go forward into the mobile goal
+		driveTrainForward(1290, 100);
+		// Intake the mobile goal
+		intakeUp(100);
+		// Discontinue power to the arm, allow it to fall back down
+		stopMultipleMotors(leftArm, rightArm);
+		// Stop power to the claw
+		stopMotor(claw);
+		// Open the claw for .25 seconds at 80 power
+		setMotor(claw, 80);
+		wait1Msec(250);
+		stopMotor(claw);
+		// Put the arm back up
+		setMultipleMotors(55, leftArm, rightArm);
+		// Move the robot backwards
+		driveTrainBackward(-967, 100);
+		// Turn right facing the 10 pt zone
+		pointTurnLeft(-525, 90);
+		// Move forward into the 10 pt zone
+		driveTrainForward(545, 90);
+		// Put the mobile goal intake down
+		intakeDown(90);
+		// Move backwards away from scored mobile goal
+		driveTrainBackward(-200, 90);
+
+		break;
+	case 5:
+		//If count = 3, run the code correspoinding with choice 4
+		displayLCDCenteredString(0, "12 Pt. RIGHT");
+		displayLCDCenteredString(1, "is running!");
+
+		// 12 Pt. RIGHT:
+
+		// Lift the arm up
+		setMultipleMotors(55, leftArm, rightArm);
+		// Close the claw on the preloaded cone
+		setMotor(claw, -80);
+		// Allow the arm to raise before putting the intake down (wait for .5)
+		delay(500);
+		// Put the mobile goal intake down
+		intakeDown(100);
+		// Go forward into the mobile goal
+		driveTrainForward(1290, 100);
+		// Intake the mobile goal
+		intakeUp(100);
+		// Discontinue power to the arm, allow it to fall back down
+		stopMultipleMotors(leftArm, rightArm);
+		// Stop power to the claw
+		stopMotor(claw);
+		// Open the claw for .25 seconds at 80 power
+		setMotor(claw, 80);
+		wait1Msec(250);
+		stopMotor(claw);
+		// Put the arm back up
+		setMultipleMotors(55, leftArm, rightArm);
+		// Move the robot backwards
+		driveTrainBackward(-967, 100);
+		// Turn right facing the 10 pt zone
+		pointTurnRight(525, 90);
+		// Move forward into the 10 pt zone
+		driveTrainForward(545, 90);
+		// Put the mobile goal intake down
+		intakeDown(90);
+		// Move backwards away from scored mobile goal
+		driveTrainBackward(-200, 90);
+
+		break;
+	case 6:
+		//If count = 3, run the code correspoinding with choice 4
+		displayLCDCenteredString(0, "22 Pt. LEFT");
+		displayLCDCenteredString(1, "is running!");
+
+		// 22 Pt. LEFT:
+
+		// Lift the arm up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Close the claw on the preloaded cone
+		setMotor(claw, -80);
+		// Allow the arm to raise before putting the intake down (wait for .5)
+		delay(150);
+		// Put the mobile goal intake down
+		intakeDown(127);
+		// Go forward into the mobile goal
+		driveTrainForward(1290, 127);
+		// Intake the mobile goal
+		intakeUp(127);
+		// Discontinue power to the arm, allow it to fall back down
+		stopMultipleMotors(leftArm, rightArm);
+		// Stop power to the claw
+		stopMotor(claw);
+		// Open the claw for .25 seconds at 80 power
+		setMotor(claw, 80);
+		wait1Msec(150);
+		stopMotor(claw);
+		// Put the arm back up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Move the robot backwards
+		driveTrainBackward(-1100, 127);
+		// Turn right facing the 5 pt zone
+		pointTurnRight(550, 127);
+		// Move forward into the 5 pt zone
+		driveTrainForward(985, 127);
+		// Put the mobile goal intake down
+		// Swerve Turn
+		swerveTurnLeft(540, 127);
+		intakeDown(127);
+		// Move backwards away from scored mobile goal
+		driveTrainBackward(-300, 127);
+		intakeUp(127);
+
+		break;
+	case 7:
+		//If count = 3, run the code correspoinding with choice 4
+		displayLCDCenteredString(0, "22 Pt. RIGHT");
+		displayLCDCenteredString(1, "is running!");
+
+		// 22 Pt. RIGHT:
+
+		// Lift the arm up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Close the claw on the preloaded cone
+		setMotor(claw, -80);
+		// Allow the arm to raise before putting the intake down (wait for .5)
+		delay(150);
+		// Put the mobile goal intake down
+		intakeDown(127);
+		// Go forward into the mobile goal
+		driveTrainForward(1290, 127);
+		// Intake the mobile goal
+		intakeUp(127);
+		// Discontinue power to the arm, allow it to fall back down
+		stopMultipleMotors(leftArm, rightArm);
+		// Stop power to the claw
+		stopMotor(claw);
+		// Open the claw for .25 seconds at 80 power
+		setMotor(claw, 80);
+		wait1Msec(150);
+		stopMotor(claw);
+		// Put the arm back up
+		setMultipleMotors(45, leftArm, rightArm);
+		// Move the robot backwards
+		driveTrainBackward(-967, 127);
+		// Turn right facing the 5 pt zone
+		pointTurnRight(550, 127);
+		// Move forward into the 5 pt zone
+		driveTrainForward(985, 127);
+		// Put the mobile goal intake down
+		// Swerve Turn
+		swerveTurnLeft(540, 127);
+		intakeDown(127);
+		// Move backwards away from scored mobile goal
+		driveTrainBackward(-300, 127);
+		intakeUp(127);
 
 		break;
 	default:
